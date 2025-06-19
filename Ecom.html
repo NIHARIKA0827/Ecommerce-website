@@ -3,119 +3,260 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mini E-Commerce</title>
-  <link rel="stylesheet" href="body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: #f2f2f2;
-}
-
-header {
-  background: #333;
-  color: white;
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.product-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 2rem;
-}
-
-.product-card {
-  background: white;
-  border: 1px solid #ddd;
-  margin: 1rem;
-  padding: 1rem;
-  width: 200px;
-  border-radius: 8px;
-  text-align: center;
-}
-
-.product-card img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-}
-
-button {
-  margin-top: 10px;
-  padding: 8px 12px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}" />
+  <title>Real Product Catalog</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #3c2f9e;
+    }
+    header {
+      padding: 1rem;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: flex-start;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    @media (min-width: 600px) {
+      header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+    header h1 {
+      margin: 0;
+    }
+    header input, header select {
+      padding: 0.5rem;
+      font-size: 1rem;
+      width: 100%;
+      max-width: 300px;
+    }
+    main {
+      padding: 1rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .card {
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      transition: transform 0.2s ease;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card img {
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+      object-fit: cover;
+    }
+    .card h3 {
+      margin: 0.5rem 0 0.3rem;
+      font-size: 1.1rem;
+    }
+    .card p {
+      color: #333;
+      margin: 0.2rem 0;
+    }
+  </style>
 </head>
 <body>
+
   <header>
-    <h1>MiniShop</h1>
-    <div class="cart">
-      🛒 Cart: <span id="cart-count">0</span>
-    </div>
+    <h1>Real Product Catalog</h1>
+    <input type="text" id="searchInput" placeholder="Search products...">
+    <select id="categoryFilter">
+      <option value="all">All Categories</option>
+    </select>
   </header>
 
   <main>
-    <div id="products" class="product-list"></div>
+    <div id="productGrid" class="grid"></div>
   </main>
 
-  <script src="const products = [
-  {
-    id: 1,
-    name: "Wireless Headphones",
-    price: 999,
-    image: "https://via.placeholder.com/200x150?text=Headphones"
-  },
-  {
-    id: 2,
-    name: "Smart Watch",
-    price: 1499,
-    image: "https://via.placeholder.com/200x150?text=Watch"
-  },
-  {
-    id: 3,
-    name: "Bluetooth Speaker",
-    price: 799,
-    image: "https://via.placeholder.com/200x150?text=Speaker"
-  }
-];
+  <script>
+    const products = [
+      {
+        name: "Apple iPhone 14",
+        price: 799,
+        image: "https://m.media-amazon.com/images/I/618Bb+QzCmL._SL1500_.jpg",
+        category: "Electronics"
+      },
+      {
+        name: "Sony WH-1000XM5 Headphones",
+        price:248,
+        image: "https://m.media-amazon.com/images/I/715wWknN9qL._SL1500_.jpg",
+        category: "Electronics"
+      },
+      {
+        name: "Nike Air Max 270",
+        price: 129.99,
+        image: "https://m.media-amazon.com/images/I/71hxIymUNzL._SY695_.jpg",
+        category: "Footwear"
+      },
+      {
+        name: "Fossil Men's Watch",
+        price: 89.00,
+        image: "https://m.media-amazon.com/images/I/61N7GjNkGSL._AC_CR0%2C0%2C0%2C0_SX615_SY462_.jpg",
+        category: "Accessories"
+      },
+      {
+        name: "Keurig K-Supreme Coffee Maker",
+        price: 119.99,
+        image: "https://m.media-amazon.com/images/I/71EW0OrCP7L._SL1500_.jpg",
+        category: "Appliances"
+      },
+      {
+        name: "Adidas Classic Backpack",
+        price: 45.00,
+        image: "https://m.media-amazon.com/images/I/61cpxMh7-6L._SX679_.jpg",
+        category: "Accessories"
+      },
+      {
+        name: "Washing Machine",
+        price: 595.00,
+        image: "https://m.media-amazon.com/images/I/71sMpmfcKWL._SX679_.jpg",
+        category: "Electronic Gadgets"
+      },
+      {
+        name: "Buds",
+        price: 590.00,
+        image: "https://m.media-amazon.com/images/I/61dj32WdrxL._SL1500_.jpg",
+        category: "Electronic gadgets"
+      },
+      {
+        name: "Refridgerator",
+        price: 595.00,
+        image: "https://m.media-amazon.com/images/I/61Xhm6woUQL._SL1500_.jpg",
+        category: "Electronic Gadgets"
+      },
+      {
+        name: "Buds",
+        price: 590.00,
+        image: "https://m.media-amazon.com/images/I/61dj32WdrxL._SL1500_.jpg",
+        category: "Electronic gadgets"
+      },
+      {
+        name: "Dress",
+        price: 590.00,
+        image: "https://m.media-amazon.com/images/I/71l2sZoikXL._SY879_.jpg",
+        category: "dresses"
+      },
+      {
+        name: "jewellery",
+        price: 590.00,
+        image: "https://m.media-amazon.com/images/I/81C+3Hz9emL._SY695_.jpg",
+        category: "jewellery"
+      },
+      {
+        name: "Tshirt",
+        price: 590.00,
+        image: "https://m.media-amazon.com/images/I/41ITY79hWUL._SX679_.jpg",
+        category: "Tshirt"
+      },
+      {
+        name: "sarees",
+        price: 590.00,
+        image: "https://m.media-amazon.com/images/I/71sPFRzCbEL._SX679_.jpg",
+        category: "sarees"
+      },
+      {
+        name: "Mobile accesories",
+        price: 590.00,
+        image: "https://m.media-amazon.com/images/I/41sDXZ4ydFL._SX300_SY300_QL70_FMwebp_.jpg",
+        category: "Mobile Acessories"
+      },
+      {
+        name: "vegetable cutter",
+        price: 590.00,
+        image: "https://m.media-amazon.com/images/I/81o5qLXXH2L._SL1500_.jpg",
+        category: "vegetable cutter"
+      },
+      {
+        name: "water bottles",
+        price: 590.00,
+        image: "https://m.media-amazon.com/images/I/810trpux-sL._SL1500_.jpg",
+        category: "Water bottle"
+      },
+       {
+        name: "juice maker",
+        price: 590.00,
+        image: "https://m.media-amazon.com/images/I/513Gd9XvQIL._SY300_SX300_QL70_FMwebp_.jpg",
+        category: "juice maker"
+      },
+      {
+        name: "Room Spray",
+        price: 590.00,
+        image: "https://m.media-amazon.com/images/I/719vFw17GOL._SL1500_.jpg",
+        category: "Room Spray"
+      },
+      {
+        name: "Door mat",
+        price: 590.00,
+        image: "https://m.media-amazon.com/images/I/81Zee0f1HNL._SL1500_.jpg",
+        category: "Door Mat"
+      },
+      
+    ];
 
-const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const productGrid = document.getElementById("productGrid");
+    const searchInput = document.getElementById("searchInput");
+    const categoryFilter = document.getElementById("categoryFilter");
 
-function updateCartCount() {
-  document.getElementById("cart-count").innerText = cart.length;
-}
+    function displayProducts(items) {
+      productGrid.innerHTML = items.map(product => `
+        <div class="card">
+          <img src="${product.image}" alt="${product.name}">
+          <h3>${product.name}</h3>
+          <p>$${product.price.toFixed(2)}</p>
+          <p><small>${product.category}</small></p>
+        </div>
+      `).join('');
+    }
 
-function addToCart(productId) {
-  const product = products.find(p => p.id === productId);
-  cart.push(product);
-  localStorage.setItem("cart", JSON.stringify(cart));
-  updateCartCount();
-  alert(${product.name} added to cart!);
-}
+    function populateCategories(items) {
+      const categories = [...new Set(items.map(p => p.category))];
+      categories.forEach(cat => {
+        const option = document.createElement("option");
+        option.value = cat;
+        option.textContent = cat;
+        categoryFilter.appendChild(option);
+      });
+    }
 
-function loadProducts() {
-  const productList = document.getElementById("products");
-  products.forEach(product => {
-    const card = document.createElement("div");
-    card.className = "product-card";
-    card.innerHTML = `
-      <img src="${product.image}" />
-      <h3>${product.name}</h3>
-      <p>₹${product.price}</p>
-      <button onclick="addToCart(${product.id})">Add to Cart</button>
-    `;
-    productList.appendChild(card);
-  });
-}
+    function filterProducts() {
+      const searchQuery = searchInput.value.toLowerCase();
+      const selectedCategory = categoryFilter.value;
 
-loadProducts();
-updateCartCount();"></script>
+      const filtered = products.filter(product => {
+        const matchesSearch = product.name.toLowerCase().includes(searchQuery);
+        const matchesCategory = selectedCategory === "all" || product.category === selectedCategory;
+        return matchesSearch && matchesCategory;
+      });
+
+      displayProducts(filtered);
+    }
+
+    // Initial load
+    populateCategories(products);
+    displayProducts(products);
+
+    // Event listeners
+    searchInput.addEventListener("input", filterProducts);
+    categoryFilter.addEventListener("change", filterProducts);
+  </script>
+
 </body>
 </html>
